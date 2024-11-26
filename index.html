@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="node_modules/remixicon/fonts/remixicon.css" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .main {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(130deg, pink, gray, black);
+        > .xo {
+          width: 300px;
+          height: 300px;
+          border: 2px solid black;
+          display: flex;
+          flex-wrap: wrap;
+          > div {
+            width: 33.333%;
+            height: 33.333%;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: navy;
+            font-size: 40px;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            border: 1px solid black;
+            text-transform: uppercase;
+            cursor: pointer;
+          }
+        }
+      }
+      .titel {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        > h1 {
+          font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+          color: black;
+          font-size: 150px;
+          font-weight: bold;
+        }
+      }
+      .contact {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > ul {
+          width: 200px;
+          height: 80px;
+          background-color: black;
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          margin-right: 10px;
+          border-radius: 5px;
+          list-style-type: none;
+          > li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-image: linear-gradient(130deg, pink, gray, black);
+            > a {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+              text-decoration: none;
+              transition: .4s;
+              > i {
+                color: black;
+                font-size: 20px;
+              }
+              &:hover{
+                background-color: rgba(238, 130, 238, 0.338);
+                scale: 1.2;
+              }
+            }
+          }
+        }
+        >span{
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            margin-left: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="xo">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="titel">
+      <h1>Tic Tac Toe</h1>
+    </div>
+    <div class="contact">
+      <span
+        >contact me to have a better view of my job.<br> my name is arian and i will
+        answer your questions always.</span
+      >
+      <ul>
+        <li>
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/arian-afsharian-7a3903156"
+            ><i class="ri-linkedin-fill"></i
+          ></a>
+        </li>
+        <li>
+          <a target="_blank" href="https://github.com/ari420"
+            ><i class="ri-github-fill"></i
+          ></a>
+        </li>
+        <li>
+          <a
+            target="_blank"
+            href="https://www.facebook.com/arian.rust.52?mibextid=ZbWKwL"
+            ><i class="ri-facebook-fill"></i
+          ></a>
+        </li>
+        <li>
+          <a
+            target="_blank"
+            href="https://www.instagram.com/component__shop?igsh=enRla3lxa3dzYXho"
+            ><i class="ri-instagram-line"></i
+          ></a>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      const tic_tac = document.querySelectorAll(".main .xo div");
+      const condition = [
+        [0, 1, 2], // Rows
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6], // Columns
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8], // Diagonals
+        [2, 4, 6],
+      ];
+
+      let flag = 1;
+
+      tic_tac.forEach((val) => {
+        val.addEventListener("click", () => {
+          if (val.innerText == "") {
+            val.innerText = flag % 2 ? "X" : "O";
+
+            setTimeout(() => {
+              if (checkWinner()) {
+                setTimeout(() => {
+                  alert(val.innerText + " is the winner!");
+                  resetGame();
+                }, 100);
+              } else if (isBoardFull()) {
+                setTimeout(() => {
+                  alert("It's a draw!");
+                  resetGame();
+                }, 100);
+              }
+            }, 100);
+
+            flag++;
+          }
+        });
+      });
+
+      //check if we have a winner//
+      function checkWinner() {
+        let winner = false;
+        condition.forEach((combo) => {
+          const [a, b, c] = combo;
+          if (
+            tic_tac[a].innerText !== "" &&
+            tic_tac[a].innerText == tic_tac[b].innerText &&
+            tic_tac[a].innerText == tic_tac[c].innerText
+          ) {
+            tic_tac[a].style.backgroundColor = "green";
+            tic_tac[b].style.backgroundColor = "green";
+            tic_tac[c].style.backgroundColor = "green";
+            winner = true;
+          }
+        });
+        return winner;
+      }
+
+      //check is board full or not//
+      function isBoardFull() {
+        return Array.from(tic_tac).every((s) => s.innerText !== "");
+      }
+
+      //restart game when we need //
+      function resetGame() {
+        tic_tac.forEach((r) => {
+          r.innerText = "";
+          r.style.backgroundColor = "";
+        });
+        flag = 1;
+      }
+    </script>
+  </body>
+</html>
